@@ -1,4 +1,3 @@
-# Очищаем Main.py и создаём базовый шаблон
 import os
 import telebot
 from dotenv import load_dotenv
@@ -12,8 +11,6 @@ if not BOT_TOKEN:
     exit(1)
 
 bot = telebot.TeleBot(BOT_TOKEN)
-
-# КАЖДЫЙ ПИШЕТ СВОЮ ЛОГИКУ ЗДЕСЬ
 
 if __name__ == '__main__':
     bot.polling()
