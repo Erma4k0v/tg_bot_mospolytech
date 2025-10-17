@@ -13,7 +13,7 @@ print("DATABASE_URL:", DATABASE_URL.replace(os.getenv('DB_PASSWORD'), '***'))
 from sqlalchemy import create_engine, text
 
 try:
-    engine = create_engine(DATABASE_URL)
+    engine = create_engine(DATABASE_URL + "?sslmode=disable")
     with engine.connect() as connection:
         result = connection.execute(text("SELECT version();"))
         print("Успех! Версия БД:", result.fetchone()[0])
