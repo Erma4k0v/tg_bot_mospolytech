@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="20cb28e6-fb1a-4639-a6a5-aa5b528fd250" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/direct.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env.example" beforeDir="false" />
+    <list default="true" id="20cb28e6-fb1a-4639-a6a5-aa5b528fd250" name="Changes" comment="Демьян сделал основу бота в bot.py, я отполировал весь код и текст и короче мы сделали всё что можно было без баз данных я думаю, остальное потом.&#10;&#10;Юз бота в тг: @gdecabinet_bot">
+      <change afterPath="$PROJECT_DIR$/core/bot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/tg_bot_mospolytech.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/tg_bot_mospolytech.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -44,7 +45,8 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;org.jetbrains.plugins.github.ui.GithubSettingsConfigurable&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -55,7 +57,7 @@
       <recent name="C:\Users\ermachkov\PycharmProjects\tg_bot_mospolytech\shared" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.bot2">
+  <component name="RunManager" selected="Python.bot">
     <configuration name="Main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="tg_bot_mospolytech" />
       <option name="ENV_FILES" value="" />
@@ -124,7 +126,6 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.bot2" />
         <item itemvalue="Python.bot" />
         <item itemvalue="Python.Main" />
       </list>
@@ -146,6 +147,15 @@
       <option name="presentableId" value="Default" />
       <updated>1760354131824</updated>
     </task>
+    <task id="LOCAL-00001" summary="Демьян сделал основу бота в bot.py, я отполировал весь код и текст и короче мы сделали всё что можно было без баз данных я думаю, остальное потом.&#10;&#10;Юз бота в тг: @gdecabinet_bot">
+      <option name="closed" value="true" />
+      <created>1762809104532</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1762809104532</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -158,5 +168,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Демьян сделал основу бота в bot.py, я отполировал весь код и текст и короче мы сделали всё что можно было без баз данных я думаю, остальное потом.&#10;&#10;Юз бота в тг: @gdecabinet_bot" />
+    <option name="LAST_COMMIT_MESSAGE" value="Демьян сделал основу бота в bot.py, я отполировал весь код и текст и короче мы сделали всё что можно было без баз данных я думаю, остальное потом.&#10;&#10;Юз бота в тг: @gdecabinet_bot" />
   </component>
 </project>
