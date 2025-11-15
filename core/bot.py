@@ -38,8 +38,15 @@ def get_main_keyboard(language):
 # Тексты на разных языках
 TEXTS = {
     "russian": {
-        "welcome": "🏛️ Добро пожаловать в навигатор по корпусу!",
-        "choose_action": "Пожалуйста, выберите действие:",
+        "choose_action": """Привет! 👋 Я — ваш путеводитель по корпусу Московского Политеха по адресу ул. Павла Корчагина, 22 🏢. Готов помочь найти нужную аудиторию! 🔍🎓
+
+🔢 Чтобы найти аудиторию:
+Введите номер аудитории (например, 305). Я покажу вам, на каком этаже она находится и как добраться до нее.
+
+📝 Обратите внимание:
+Корпус 5-этажный 🏢
+Нумерация аудиторий —410, 415, 407 и так далее
+Этажи с 1 по 5 📝""",
         "room_prompt": "Введите номер кабинета (например: 101, 205, 301):",
         "search_again": "🔍 Найти другой кабинет",
         "back_to_menu": "⬅️ В главное меню",
@@ -57,8 +64,15 @@ TEXTS = {
         "invalid_room": "❌ Пожалуйста, введите корректный номер кабинета (только цифры)"
     },
     "english": {
-        "welcome": "🏛️ Welcome to the building navigator!",
-        "choose_action": "Please select an action:",
+        "choose_action": """Hello! 👋 I'm your guide to the Moscow Polytech building at 22 Pavel Korchagin Street 🏢. I'm ready to help you find the right classroom! 🔍🎓
+
+🔢 To find a classroom:
+Enter the room number (for example, 305). I'll show you which floor it's on and how to get there.
+
+📝 Please note:
+The building has 5 floors 🏢
+The classroom numbering is like 410, 415, 407, and so on.
+Floors are from 1 to 5 📝""",
         "room_prompt": "Enter the room number (e.g.: 101, 205, 301):",
         "search_again": "🔍 Find another room",
         "back_to_menu": "⬅️ Back to main menu",
@@ -104,7 +118,7 @@ async def select_language(update: Update, context: ContextTypes.DEFAULT_TYPE):
     texts = TEXTS[language]
 
     await update.message.reply_text(
-        f"{texts['welcome']}\n\n{texts['choose_action']}",
+        texts['choose_action'],
         reply_markup=get_main_keyboard(language)
     )
     return ENTER_ROOM
@@ -166,7 +180,7 @@ async def back_to_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
     texts = TEXTS[language]
 
     await update.message.reply_text(
-        texts['welcome'],
+        texts['choose_action'],
         reply_markup=get_main_keyboard(language)
     )
     return ENTER_ROOM

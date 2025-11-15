@@ -4,12 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="20cb28e6-fb1a-4639-a6a5-aa5b528fd250" name="Changes" comment="Демьян сделал основу бота в bot.py, я отполировал весь код и текст и короче мы сделали всё что можно было без баз данных я думаю, остальное потом.&#10;&#10;Юз бота в тг: @gdecabinet_bot">
-      <change afterPath="$PROJECT_DIR$/core/bot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/tg_bot_mospolytech.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/tg_bot_mospolytech.iml" afterDir="false" />
+    <list default="true" id="20cb28e6-fb1a-4639-a6a5-aa5b528fd250" name="Changes" comment="Полировка текста и команд">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/bot.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,6 +23,21 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Funs1zel&quot;
+  }
+}</component>
+  <component name="GithubDefaultAccount">
+    <option name="defaultAccountId" value="fda808fd-c7a6-4f8a-a69f-0a90518a4c18" />
+  </component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Erma4k0v/tg_bot_mospolytech.git&quot;,
+    &quot;accountId&quot;: &quot;fda808fd-c7a6-4f8a-a69f-0a90518a4c18&quot;
+  }
+}</component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -57,29 +69,7 @@
       <recent name="C:\Users\ermachkov\PycharmProjects\tg_bot_mospolytech\shared" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.bot">
-    <configuration name="Main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="tg_bot_mospolytech" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Main.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager">
     <configuration name="bot" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="tg_bot_mospolytech" />
       <option name="ENV_FILES" value="" />
@@ -127,7 +117,6 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.bot" />
-        <item itemvalue="Python.Main" />
       </list>
     </recent_temporary>
   </component>
@@ -155,10 +144,43 @@
       <option name="project" value="LOCAL" />
       <updated>1762809104532</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Полировка текста и команд">
+      <option name="closed" value="true" />
+      <created>1762815538717</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1762815538717</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="origin/main" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="main" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="HEAD" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
@@ -171,6 +193,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Демьян сделал основу бота в bot.py, я отполировал весь код и текст и короче мы сделали всё что можно было без баз данных я думаю, остальное потом.&#10;&#10;Юз бота в тг: @gdecabinet_bot" />
-    <option name="LAST_COMMIT_MESSAGE" value="Демьян сделал основу бота в bot.py, я отполировал весь код и текст и короче мы сделали всё что можно было без баз данных я думаю, остальное потом.&#10;&#10;Юз бота в тг: @gdecabinet_bot" />
+    <MESSAGE value="Полировка текста и команд" />
+    <option name="LAST_COMMIT_MESSAGE" value="Полировка текста и команд" />
   </component>
 </project>
