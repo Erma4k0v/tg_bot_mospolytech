@@ -1,6 +1,32 @@
 import logging
+from database.db import get_room_info
 from telegram import Update, ReplyKeyboardMarkup, KeyboardButton
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes, ConversationHandler
+import re
+
+
+# Функция нормализации букв
+def normalize_room_number(room_number):
+    """Приводит русские буквы к английским (только a, b, v)"""
+    russian_to_english = {
+        'а': 'a',  # русская 'а' → английская 'a'
+        'в': 'v',  # русская 'в' → английская 'v'
+        'б': 'b',  # русская 'б' → английская 'b'
+    }
+
+    normalized = ''
+    for char in room_number:
+        lower_char = char.lower()
+        if lower_char in russian_to_english:
+            if char.isupper():
+                normalized += russian_to_english[lower_char].upper()
+            else:
+                normalized += russian_to_english[lower_char]
+        else:
+            normalized += char
+
+    return normalized
+
 
 # Настройка логирования
 logging.basicConfig(
@@ -58,10 +84,13 @@ TEXTS = {
 • 101
 • 205  
 • 301
+• 333a
+• 205b
+• 410в
 
 Бот покажет расположение и информацию о кабинете.""",
         "no_database": "❌ *База данных кабинетов временно недоступна*\n\nВ настоящее время мы обновляем информацию о расположении кабинетов. Пожалуйста, обратитесь к администрации корпуса для уточнения информации.",
-        "invalid_room": "❌ Пожалуйста, введите корректный номер кабинета (только цифры)"
+        "invalid_room": "❌ Пожалуйста, введите корректный номер кабинета (цифры + опционально буква a/b/v)"
     },
     "english": {
         "choose_action": """Hello! 👋 I'm your guide to the Moscow Polytech building at 22 Pavel Korchagin Street 🏢. I'm ready to help you find the right classroom! 🔍🎓
@@ -73,7 +102,7 @@ Enter the room number (for example, 305). I'll show you which floor it's on and 
 The building has 5 floors 🏢
 The classroom numbering is like 410, 415, 407, and so on.
 Floors are from 1 to 5 📝""",
-        "room_prompt": "Enter the room number (e.g.: 101, 205, 301):",
+        "room_prompt": "Enter the room number (e.g.: 101, 205, 301, 333a):",
         "search_again": "🔍 Find another room",
         "back_to_menu": "⬅️ Back to main menu",
         "help_text": """🤖 *Bot Help*
@@ -84,10 +113,12 @@ Enter the room number you want to find.
 • 101
 • 205
 • 301
+• 333a
+• 205b
 
 The bot will show the location and information about the room.""",
         "no_database": "❌ *Room database temporarily unavailable*\n\nWe are currently updating room location information. Please contact the building administration for details.",
-        "invalid_room": "❌ Please enter a valid room number (digits only)"
+        "invalid_room": "❌ Please enter a valid room number (digits + optional letter a/b/v)"
     }
 }
 
@@ -100,6 +131,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         reply_markup=get_language_keyboard()
     )
     return SELECT_LANGUAGE
+
 
 # Обработка выбора языка
 async def select_language(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -153,16 +185,58 @@ async def search_room(update: Update, context: ContextTypes.DEFAULT_TYPE):
     texts = TEXTS[language]
     room_number = update.message.text.strip()
 
-    # Проверяем, что введены только цифры
-    if not room_number.isdigit():
+    # Нормализуем буквы (русские → английские)
+    normalized_number = normalize_room_number(room_number)
+
+    # Проверяем формат: цифры + опционально буквы a,b,v (русские или английские)
+    if not re.match(r'^\d+[abvABVаАбБвВ]?$', room_number):
         await update.message.reply_text(texts['invalid_room'])
         return ENTER_ROOM
 
-    # Заглушка - база данных недоступна
-    response = f"""
+    # Ищем кабинет в БД (используем нормализованный номер)
+    room_info = get_room_info(normalized_number.upper())  # Приводим к верхнему регистру
+
+    if not room_info:
+        response = f"""
 🔍 *Поиск кабинета {room_number}*
 
-{texts['no_database']}"""
+❌ Кабинет {room_number} не найден в базе данных.
+Проверьте правильность номера."""
+
+        # Клавиатура для дальнейших действий
+        keyboard = [
+            [KeyboardButton(texts['search_again']), KeyboardButton(texts['back_to_menu'])]
+        ]
+        reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
+        await update.message.reply_text(response, parse_mode='Markdown', reply_markup=reply_markup)
+        return ENTER_ROOM
+
+    # Отправляем фото с разными подписями
+    photo_urls = room_info['photo_urls']
+    if photo_urls:
+        for i, photo_url in enumerate(photo_urls, 1):
+            if i == 1:  # Первая фотка
+                caption = "📍 *Иди прямо*"
+            elif i == len(photo_urls):  # Последняя фотка
+                caption = "✅ *Ты на месте!*"
+            else:  # Средние фотки
+                caption = "📍 *Продолжай идти прямо*"
+
+            try:
+                await update.message.reply_photo(
+                    photo_url,
+                    caption=caption,
+                    parse_mode='Markdown'
+                )
+            except Exception as e:
+                await update.message.reply_text(f"❌ Ошибка загрузки фото {i}")
+
+    # Основное сообщение после фото
+    response = f"""
+🏢 *Кабинет {room_info['number']}*
+
+📋 *Этаж:* {room_info['floor']}
+📝 *Описание:* {room_info['description']}"""
 
     # Клавиатура для дальнейших действий
     keyboard = [
