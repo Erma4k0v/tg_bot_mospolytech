@@ -178,6 +178,18 @@ async def handle_main_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(texts['room_prompt'])
     return ENTER_ROOM
 
+def translate_description(description, language):
+    """Переводит описание на выбранный язык"""
+    translations = {
+        "Учебный кабинет": {
+            "russian": "Учебный кабинет",
+            "english": "Classroom"
+        }
+    }
+
+    if description in translations:
+        return translations[description][language]
+    return description
 
 # Поиск кабинета
 async def search_room(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -197,11 +209,19 @@ async def search_room(update: Update, context: ContextTypes.DEFAULT_TYPE):
     room_info = get_room_info(normalized_number.upper())  # Приводим к верхнему регистру
 
     if not room_info:
-        response = f"""
+        # Сообщение об ошибке на выбранном языке
+        if language == "russian":
+            response = f"""
 🔍 *Поиск кабинета {room_number}*
 
 ❌ Кабинет {room_number} не найден в базе данных.
 Проверьте правильность номера."""
+        else:  # english
+            response = f"""
+🔍 *Search for room {room_number}*
+
+❌ Room {room_number} not found in the database.
+Please check the room number."""
 
         # Клавиатура для дальнейших действий
         keyboard = [
@@ -210,6 +230,61 @@ async def search_room(update: Update, context: ContextTypes.DEFAULT_TYPE):
         reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
         await update.message.reply_text(response, parse_mode='Markdown', reply_markup=reply_markup)
         return ENTER_ROOM
+
+    # ПЕРЕВОДИМ ОПИСАНИЕ
+    translated_description = translate_description(room_info['description'], language)
+
+    # Отправляем фото с разными подписями (на выбранном языке)
+    photo_urls = room_info['photo_urls']
+    if photo_urls:
+        for i, photo_url in enumerate(photo_urls, 1):
+            if language == "russian":
+                if i == 1:  # Первая фотка
+                    caption = "📍 *Иди прямо*"
+                elif i == len(photo_urls):  # Последняя фотка
+                    caption = "✅ *Ты на месте!*"
+                else:  # Средние фотки
+                    caption = "📍 *Продолжай идти прямо*"
+            else:  # english
+                if i == 1:  # First photo
+                    caption = "📍 *Go straight*"
+                elif i == len(photo_urls):  # Last photo
+                    caption = "✅ *You have arrived!*"
+                else:  # Middle photos
+                    caption = "📍 *Keep going straight*"
+
+            try:
+                await update.message.reply_photo(
+                    photo_url,
+                    caption=caption,
+                    parse_mode='Markdown'
+                )
+            except Exception as e:
+                error_msg = "Ошибка загрузки фото" if language == "russian" else "Photo loading error"
+                await update.message.reply_text(f"❌ {error_msg} {i}")
+
+    # Основное сообщение после фото (на выбранном языке)
+    if language == "russian":
+        response = f"""
+🏢 *Кабинет {room_info['number']}*
+
+📋 *Этаж:* {room_info['floor']}
+📝 *Описание:* {translated_description}"""  # ← ИСПОЛЬЗУЕМ ПЕРЕВЕДЕННОЕ ОПИСАНИЕ
+    else:  # english
+        response = f"""
+🏢 *Room {room_info['number']}*
+
+📋 *Floor:* {room_info['floor']}
+📝 *Description:* {translated_description}"""  # ← ИСПОЛЬЗУЕМ ПЕРЕВЕДЕННОЕ ОПИСАНИЕ
+
+    # Клавиатура для дальнейших действий
+    keyboard = [
+        [KeyboardButton(texts['search_again']), KeyboardButton(texts['back_to_menu'])]
+    ]
+    reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
+
+    await update.message.reply_text(response, parse_mode='Markdown', reply_markup=reply_markup)
+    return ENTER_ROOM
 
     # Отправляем фото с разными подписями
     photo_urls = room_info['photo_urls']
